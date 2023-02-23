@@ -6,6 +6,10 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        $user = \auth()->user();
+        $data['user'] = $user;
+        return view('templates/header', $data) 
+        .view('home')
+        .view('templates/footer');
     }
 }
