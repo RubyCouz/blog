@@ -5,6 +5,7 @@ namespace Config;
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
+use App\Controllers\ContentController;
 /*
  * --------------------------------------------------------------------
  * Router Setup
@@ -30,7 +31,8 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-
+$routes->get('contents/(:segment)', [ContentController::class, 'view']);
+$routes->get('contents', [ContentController::class, 'index']);
 service('auth')->routes($routes);
 
 /*
