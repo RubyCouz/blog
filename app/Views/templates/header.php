@@ -24,33 +24,27 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link active" aria-current="page" href="/contents">Les derniers posts</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
-
-                </ul>
-                <?php
-                if (isset($user)) {
-                ?>
-                    <span>
-                        Bienvenue <?= $user->username ?>
-                    </span>
                     <?php
-                    if ($user->groups[0] === 'superadmin') {
+                    if (isset($user)) {
+                        if ($user->groups[0] === 'superadmin') {
                     ?>
-                        <a href="/admin" title="Interface administrateur" class="btn btn-primary">
-                            Pannel Admin
-                        </a>
-                <?php
+                            <li class="nav-item">
+                                <a class="nav-link" href="/contents/add">Nouveau post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="/admin">Outils Admin</a>
+                            </li>
+                    <?php
+                        }
                     }
-                }
-
-                ?>
+                    ?>
+                </ul>
                 <a href=<?= isset($user) ? '/logout' : '/login' ?> title=<?= isset($user) ? 'Deconnexion' : 'Connexion' ?> class="btn btn-primary">
                     <?= isset($user) ? 'Deconnexion' : 'Connexion' ?>
                 </a>
             </div>
         </div>
     </nav>
+    <div class="container-fluid">

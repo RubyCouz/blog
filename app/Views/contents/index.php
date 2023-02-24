@@ -5,7 +5,9 @@
     <?php foreach ($contents as $content) : ?>
 
         <h3><?= esc($content['content_title']) ?></h3>
-
+        <div>
+            <img src="<?= $content['content_pic'] ?>" class="img-thumbnail" alt="...">
+        </div>
         <div class="main">
             <?= esc($content['content_text']) ?>
         </div>
