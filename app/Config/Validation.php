@@ -41,4 +41,23 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+
+    public $content = [
+        'content_title' => [
+            'rules' => 'required|alpha_numeric_punct',
+            'errors' => [
+                'required' => 'Vous devez remplir ce champs',
+                'alpha_numeric_punct' => 'Des caractères ne sont pas pris en charge'
+            ],
+        ],
+        'content_text' => [
+            'rules' => 'required|alpha_numeric_punct',
+            'errors' => [
+                'required' => 'Vous devez remplir ce champs',
+                'alpha_numeric_punct' => 'Des caractères ne sont pas pris en charge'
+            ]
+        ],
+
+    ];
+   
 }

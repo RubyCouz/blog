@@ -36,6 +36,7 @@ class ContentController extends BaseController
         // récupération des données user
         $user = \auth()->user();
         $data['user'] = $user;
+        // instanciation du model ContentModel
         $model = model(ContentModel::class);
         $data = [
             'user' => $user,
@@ -52,88 +53,70 @@ class ContentController extends BaseController
      */
     public function addContent()
     {
-
+        $page = 'addContent';
+        // appel helper formulaire et gestion des erreurs
         helper('form');
         session()->getFlashdata('error');
+        $validation = \Config\Services::validation();
         validation_list_errors();
         // récupération des données user
         $user = \auth()->user();
+        // contrainte de validation pour l'image
+        $picValidation =
+            [
+                'content_pic' => [
+                'rules' => [
+                    'uploaded[content_pic]',
+                    'is_image[content_pic]',
+                    'mime_in[content_pic,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                ],
+                    'errors' => [
+                        'is_image' => 'Ce type de fichier n\'est pas pris en charge',
+                        'uploaded' => 'Il y a eu un soucis lors du téléchargement du fichier'
+                    ]
+                ],
+            ];
         $data = [
             'title' => 'Nouveau post',
             'user' => $user,
         ];
-        // si le formulaire n'est pas soumis
-        if (!$this->request->is('post')) {
+        // si le formulaire est envoyé
+        if ($this->request->is('post')) {
+            // récupération des données fournies par l'utilisateur
+            $post = $this->request->getPost(['content_title', 'content_text', 'content_pic']);
+            // récupération des informations de l'image
+            $pic = $this->request->getFile('content_pic');
+            // validation image
+            if (!$this->validate($picValidation)) {
+                $data['errors'] = $this->validator->getErrors();
+            }
+            //validation formulaire
+            if (!$validation->run($post, 'content')) {
+                $data['errors'] =$validation->getErrors();
+            }
+            // s'il n'y a pas d'erreur de form
+            if (!isset($data['errors']) && !isset($data['errorUpload'])) {
+                // stockage de l'image
+                if (!$pic->hasMoved()) {
+                    // définition d'un nom de fichier random
+                    $newName = $pic->getRandomName();
+                    $pic->move(ROOTPATH . 'public/images/uploads/posts', $newName);
+                }
+                // instanciation du model ContentModel
+                $model = model(ContentModel::class);
+                // envoie des donnés en base de données
+                $model->save([
+                    'content_title' => $post['content_title'],
+                    'content_text' => $post['content_text'],
+                    'content_pic' => 'images/uploads/posts/' . $newName,
+                    'user_id' => 1,
+                ]);
+                $data['contents'] = $model->getContents();
+                $page = 'index';
+            }
+        } 
             return view('templates/header', $data)
-                . view('contents/addContent')
+                . view('contents/' . $page)
                 . view('templates/footer');
-        }
-
-        $post = $this->request->getPost(['content_title', 'content_text', 'content_pic']);
-        $pic = $this->request->getFile('content_pic');
-        if (!$pic->isValid()) {
-            throw new \RuntimeException($pic->getErrorString() . '(' . $pic->getError() . ')');
-        }
-        var_dump($post);
-        var_dump($pic);
-        $picValidation =
-            [
-                'content_pic' => [
-                    'label' => 'Image File',
-                    'rules' => [
-                        'uploaded[content_pic]',
-                        'is_image[content_pic]',
-                        'mime_in[content_pic,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
-                    ],
-                ],
-            ];
-        if (!$this->validate($picValidation)) {
-            $data = [
-                'errors' => $this->validator->getErrors(),
-                'title' => 'un titre',
-            ];
-
-            return view('templates/header', $data)
-                . view('contents/addContent')
-                . view('templates/footer');
-        }
-        // si la validation échoue
-        if (!$this->validateData(
-            $post,
-            [
-                'content_title' => 'required',
-                'content_text'  => 'required',
-            ]
-        )) {
-            $data = [
-                'user' => $user,
-                'title' => 'Problème validation',
-                'errors' => $this->validator->getErrors()
-            ];
-            // affichage du formulaire
-            return view('templates/header', $data)
-                . view('contents/addContent')
-                . view('templates/footer');
-        }
-
-        if (!$pic->hasMoved()) {
-            $filepath = WRITEPATH . 'uploads/' . $pic->store();
-            $data = ['uploaded_fileinfo' => new File($filepath)];
-        }
-        $model = model(ContentModel::class);
-        $model->save([
-            'content_title' => $post['content_title'],
-            'content_text' => $post['content_text'],
-            'content_pic' => $filepath,
-            'user_id' => 1,
-        ]);
-        $data = [
-            'user' => $user,
-            'title' => 'Envoie effectué',
-            'uploaded_fileinfo' => new File($filepath)
-        ];
-        return view('templates/header', $data)
-            . view('contents/index')
-            . view('templates/footer');
     }
 }
