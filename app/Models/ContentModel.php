@@ -51,9 +51,10 @@ class ContentModel extends Model
         // si pas de slug
         if ($id === false) {
             // on recupere toutes les donnees
-            return $this->findAll();
+            return $this->orderBy('created_at', 'DESC')->findAll();
         }
         // recuperation de la derniere donnee selon son slug
         return $this->where(['content_id' => $id])->first();
     }
+
 }

@@ -15,10 +15,18 @@ class ContentController extends BaseController
      */
     public function index()
     {
+        // démarage session pour flash data
         $session = \Config\Services::session();
+        // récupération message flash et stockage dans une variable
         $flash = $session->getFlashdata('isValid');
-        // récupération des données user
+        // récupération des données user connecté
         $user = \auth()->user();
+        // connexion à la base de données
+        $db      = \Config\Database::connect();
+        $builder = $db->table('contents');
+        // récupération des 3 dernières entrées en base
+        $query = $builder->orderBy('created_at', 'DESC')->get(3);
+       
         // instanciation du model contentModel
         $model = model(ContentModel::class);
         // utilisation de la methode getContents du model ContentModel et stockage du resultat dans un tableau associatif

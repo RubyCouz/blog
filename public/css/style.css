@@ -4,9 +4,11 @@
     width: 100%;
     /* The width is the width of the web page */
 }
-
+.navbar {
+    background-color: #E8C1D9;
+}
 /** 
-*snowflakes
+*unicorn
 */
 body {
     background: #E8C1D9;

@@ -7,15 +7,15 @@
     <div class="col-lg-8 offset-lg-2">
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src=<?= base_url('/images/IMG_20221105_140343.jpg') ?> class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src=<?= base_url('/images/IMG_20221217_154904.jpg') ?> class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src=<?= base_url('/images/IMG_20230126_162743.jpg') ?> class="d-block w-100" alt="...">
-                </div>
+                <?php
+                foreach ($pictures as $pic) {
+                ?>
+                    <div class="carousel-item active">
+                        <img src=<?= base_url($pic->content_pic) ?> class="d-block w-100" alt="<?= $pic->content_title ?>">
+                    </div>
+                <?php
+                }
+                ?>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
