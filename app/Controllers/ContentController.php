@@ -58,6 +58,10 @@ class ContentController extends BaseController
      */
     public function addContent()
     {
+        // vérification du role de l'utilisateur et de ses permissions
+        if (auth()->user() === null || !auth()->user()->can('admin.access')) {
+            return redirect()->route('contents');
+        }
         // instanciation session pour flashdata
         $session = \Config\Services::session();
         // récupération de la dâte du jour
