@@ -13,7 +13,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -52,3 +52,23 @@
         </div>
     </nav>
     <div class="container-fluid">
+        <div class="unicorn">
+            <div class="face">
+                <div class="cheek"></div>
+                <div class="snoot">
+                    <div class="nose">
+                        <div class="nostril"></div>
+                    </div>
+                </div>
+                <div class="eye">
+                    <div class="eyelashes"></div>
+                </div>
+                <div class="ear"></div>
+                <div class="horn"></div>
+                <div class="mane top"></div>
+                <div class="mane mid"></div>
+            </div>
+            <div class="neck">
+                <div class="mane end"></div>
+            </div>
+        </div>
