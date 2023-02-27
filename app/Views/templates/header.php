@@ -27,6 +27,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/contents">Les derniers posts</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about">En savoir plus</a>
+                    </li>
                     <?php
                     if (isset($user)) {
                         if ($user->groups[0] === 'superadmin') {

@@ -1,7 +1,7 @@
 <h1><?= esc($title) ?></h1>
 <div class="row">
     <div class="col-lg-6 offset-lg-3">
-        <form action="/contents/addContent" method="post" enctype="multipart/form-data" novalidate>
+        <form action="/contents/add" method="post" enctype="multipart/form-data" novalidate>
             <?= csrf_field() ?>
             <div class="mb-3">
                 <label for="content_title" class="form-label">Titre</label>
@@ -14,7 +14,9 @@
             </div>
             <div class="mb-3">
                 <label for="content_text" class="form-label">Texte</label>
-                <textarea name="content_text" class="form-control" id="content_text" rows="3" value="<?= set_value('content_text') ?>"></textarea>
+                <textarea name="content_text" class="form-control" id="content_text" rows="3" >
+                    <?= trim(set_value('content_text')) ?>
+                </textarea>
                 <?php
                 if (isset($errors['content_text'])) {
                 ?>

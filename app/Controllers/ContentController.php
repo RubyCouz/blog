@@ -5,14 +5,18 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ContentModel;
 use CodeIgniter\Files\File;
+use CodeIgniter\I18n\Time;
 
 class ContentController extends BaseController
 {
+
     /**
      * Affichage des posts
      */
     public function index()
     {
+        $session = \Config\Services::session();
+        $flash = $session->getFlashdata('isValid');
         // récupération des données user
         $user = \auth()->user();
         // instanciation du model contentModel
@@ -22,6 +26,7 @@ class ContentController extends BaseController
             'user' => $user,
             'contents' => $model->getContents(),
             'title' => 'Les derniers posts d\'Aby et Roxanne',
+            'flash' => $flash,
         ];
         // on retourne les vues pour affichage
         return view('templates/header', $data)
@@ -53,6 +58,10 @@ class ContentController extends BaseController
      */
     public function addContent()
     {
+        // instanciation session pour flashdata
+        $session = \Config\Services::session();
+        // récupération de la dâte du jour
+        $today = Time::createFromDate()->toDateString();
         $page = 'addContent';
         // appel helper formulaire et gestion des erreurs
         helper('form');
@@ -65,11 +74,11 @@ class ContentController extends BaseController
         $picValidation =
             [
                 'content_pic' => [
-                'rules' => [
-                    'uploaded[content_pic]',
-                    'is_image[content_pic]',
-                    'mime_in[content_pic,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
-                ],
+                    'rules' => [
+                        'uploaded[content_pic]',
+                        'is_image[content_pic]',
+                        'mime_in[content_pic,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                    ],
                     'errors' => [
                         'is_image' => 'Ce type de fichier n\'est pas pris en charge',
                         'uploaded' => 'Il y a eu un soucis lors du téléchargement du fichier'
@@ -92,7 +101,7 @@ class ContentController extends BaseController
             }
             //validation formulaire
             if (!$validation->run($post, 'content')) {
-                $data['errors'] =$validation->getErrors();
+                $data['errors'] = $validation->getErrors();
             }
             // s'il n'y a pas d'erreur de form
             if (!isset($data['errors']) && !isset($data['errorUpload'])) {
@@ -109,14 +118,16 @@ class ContentController extends BaseController
                     'content_title' => $post['content_title'],
                     'content_text' => $post['content_text'],
                     'content_pic' => 'images/uploads/posts/' . $newName,
+                    'created_at' => $today,
                     'user_id' => 1,
                 ]);
-                $data['contents'] = $model->getContents();
-                $page = 'index';
+
+                $session->setFlashdata('isValid', 'Post ajouté à la base');
+                return redirect()->route('contents');
             }
-        } 
-            return view('templates/header', $data)
-                . view('contents/' . $page)
-                . view('templates/footer');
+        }
+        return view('templates/header', $data)
+            . view('contents/' . $page)
+            . view('templates/footer');
     }
 }

@@ -15,7 +15,7 @@ class ContentModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'content_title', 'content_text', 'content_pic', 'user_id'
+        'content_title', 'content_text', 'content_pic', 'user_id', 'created_at', 'updated_at'
     ];
 
     // Dates

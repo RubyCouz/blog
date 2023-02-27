@@ -44,17 +44,17 @@ class Validation extends BaseConfig
 
     public $content = [
         'content_title' => [
-            'rules' => 'required|alpha_numeric_punct',
+            'rules' => 'required|regex_match[/^[\s\w\d\?\!\.\,\@\#\$\%\&\(\)\-\_\=\+\^\*\;\:\'\"\~\`\/]+$/]',
             'errors' => [
                 'required' => 'Vous devez remplir ce champs',
-                'alpha_numeric_punct' => 'Des caractères ne sont pas pris en charge'
+                'regex_match' => 'Des caractères ne sont pas pris en charge'
             ],
         ],
         'content_text' => [
-            'rules' => 'required|alpha_numeric_punct',
+            'rules' => 'required|regex_match[/^[\s\w\d\?\!\.\,\@\#\$\%\&\(\)\-\_\=\+\^\*\;\:\'\"\~\`\/]+$/]',
             'errors' => [
                 'required' => 'Vous devez remplir ce champs',
-                'alpha_numeric_punct' => 'Des caractères ne sont pas pris en charge'
+                'regex_match' => 'Des caractères ne sont pas pris en charge'
             ]
         ],
 

@@ -5,6 +5,7 @@ namespace Config;
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
+use App\Controllers\AboutController;
 use App\Controllers\ContentController;
 /*
  * --------------------------------------------------------------------
@@ -30,11 +31,12 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->match(['get', 'post'], 'contents/addContent', [ContentController::class, 'addContent']);
+$routes->match(['get', 'post'], 'contents/add', [ContentController::class, 'addContent']);
 $routes->get('/', 'Home::index');
 $routes->get('contents/add', [ContentController::class, 'addContent']);
 $routes->get('contents/(:segment)', [ContentController::class, 'view']);
 $routes->get('contents', [ContentController::class, 'index']);
+$routes->get('about', [AboutController::class, 'index']);
 service('auth')->routes($routes);
 
 /*
