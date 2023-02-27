@@ -13,4 +13,4 @@
         <div id="map"></div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGaaT_E5lWtMcnE4iYHYbenHg3wSS0CIQ&callback=initMap&v=weekly" defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" defer></script>
