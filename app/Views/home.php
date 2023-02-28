@@ -1,10 +1,16 @@
 <div class="row">
-    <div class="col-lg-2 offset-lg-10">
-        <a href=""></a>
-    </div>
+    <div class="col-lg-12">
+
+</div>
 </div>
 <div class="row">
     <div class="col-lg-8 offset-lg-2">
+
+
+
+
+
+    
         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php

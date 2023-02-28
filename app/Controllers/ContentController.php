@@ -15,7 +15,7 @@ class ContentController extends BaseController
      */
     public function index()
     {
-        if (auth()->user() === null || !auth()->user()->can('user.access')) {
+        if (auth()->user() === null || !auth()->user()->can('users.access')) {
             return redirect()->route('login');
         }
         // démarage session pour flash data
@@ -25,11 +25,11 @@ class ContentController extends BaseController
         // récupération des données user connecté
         $user = \auth()->user();
         // connexion à la base de données
-        $db      = \Config\Database::connect();
+        $db = \Config\Database::connect();
         $builder = $db->table('contents');
         // récupération des 3 dernières entrées en base
         $query = $builder->orderBy('created_at', 'DESC')->get(3);
-       
+
         // instanciation du model contentModel
         $model = model(ContentModel::class);
         // utilisation de la methode getContents du model ContentModel et stockage du resultat dans un tableau associatif
@@ -49,7 +49,7 @@ class ContentController extends BaseController
      */
     public function view($id = null)
     {
-        if (auth()->user() === null || !auth()->user()->can('user.access')) {
+        if (auth()->user() === null || !auth()->user()->can('users.access')) {
             return redirect()->route('login');
         }
         // récupération des données user

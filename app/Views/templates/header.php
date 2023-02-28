@@ -26,7 +26,7 @@
                     </li>
                     <?php
                     if (isset($user)) {
-                        if ($user->groups[0] === 'user') {
+                        if ($user->groups[0] === 'user' || $user->groups[0] === 'superadmin') {
                     ?>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/contents">Les derniers posts</a>
