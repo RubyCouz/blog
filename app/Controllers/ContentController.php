@@ -15,6 +15,9 @@ class ContentController extends BaseController
      */
     public function index()
     {
+        if (auth()->user() === null || !auth()->user()->can('user.access')) {
+            return redirect()->route('login');
+        }
         // démarage session pour flash data
         $session = \Config\Services::session();
         // récupération message flash et stockage dans une variable
@@ -46,6 +49,9 @@ class ContentController extends BaseController
      */
     public function view($id = null)
     {
+        if (auth()->user() === null || !auth()->user()->can('user.access')) {
+            return redirect()->route('login');
+        }
         // récupération des données user
         $user = \auth()->user();
         $data['user'] = $user;
